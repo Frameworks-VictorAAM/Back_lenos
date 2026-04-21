@@ -6,10 +6,10 @@ const helmet = require('helmet');
 
 const app = express();
 
-
+app.use(cors());
 app.use(helmet()); // uso de helmet
 // Middlewares
-/*app.use(cors());*/
+
 app.use(express.json()); // Permite recibir datos JSON en el cuerpo de las peticiones
 
 app.use((req, res, next) => {
