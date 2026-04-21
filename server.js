@@ -32,6 +32,17 @@ app.use(cors({
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'x-auth-token'] // ¡ESTO ES VITAL!
 }));
+const corsOptions = {
+  origin: 'https://front-lenos.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+  credentials: true,
+  optionsSuccessStatus: 200 // Responde 200 a la petición OPTIONS
+};
+
+app.use(cors(corsOptions));
+// Asegúrate de que app.options esté habilitado para todas las rutas
+app.options('*', cors(corsOptions));
 helmet({
     contentSecurityPolicy: {
       directives: {
