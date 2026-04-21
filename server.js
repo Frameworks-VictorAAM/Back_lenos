@@ -40,21 +40,6 @@ const corsOptions = {
   optionsSuccessStatus: 200 // Responde 200 a la petición OPTIONS
 };
 
-app.use(cors(corsOptions));
-// Asegúrate de que app.options esté habilitado para todas las rutas
-app.options('*', cors(corsOptions));
-helmet({
-    contentSecurityPolicy: {
-      directives: {
-        "default-src": ["'self'"], // Permite recursos del mismo dominio
-        "connect-src": ["'self'", "https://back-lenos.onrender.com", "https://front-lenos.vercel.app"], // Permite Axios/Fetch
-        "script-src": ["'self'", "'unsafe-inline'"], // Permite scripts de React
-        "style-src": ["'self'", "'unsafe-inline'"],
-        "img-src": ["'self'", "data:"],
-      },
-    },
-  })
-  
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGO_URI)
