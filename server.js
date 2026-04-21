@@ -39,11 +39,11 @@ helmet({
     },
   })
   
-app.use(cors({
+/*app.use(cors({
   origin: 'https://front-lenos.vercel.app', // La URL de tu Vite
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'x-auth-token'] // ¡ESTO ES VITAL!
-})); 
+})); */
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGO_URI)
