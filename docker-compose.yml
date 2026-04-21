@@ -1,0 +1,25 @@
+services:
+  app-logic:
+    build: .
+    expose:
+      - "3000"  # Asegúrate de que haya un espacio después del guion
+    networks:
+      - lenos-red
+
+  web-server:
+    image: docker.io/library/nginx:latest
+    ports:
+      - "8080:80"   # Entras por localhost:8080
+      - "8443:443"  # Entras por localhost:8443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+      - ../frontend/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - app-logic
+    networks:
+      - lenos-red
+
+networks:
+  lenos-red:
+    driver: bridge
