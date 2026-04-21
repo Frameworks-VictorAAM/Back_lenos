@@ -31,7 +31,7 @@ helmet({
     contentSecurityPolicy: {
       directives: {
         "default-src": ["'self'"], // Permite recursos del mismo dominio
-        "connect-src": ["'self'", "https://localhost:8443", "http://localhost:5173"], // Permite Axios/Fetch
+        "connect-src": ["'self'", "https://back-lenos.onrender.com", "https://front-lenos.vercel.app"], // Permite Axios/Fetch
         "script-src": ["'self'", "'unsafe-inline'"], // Permite scripts de React
         "style-src": ["'self'", "'unsafe-inline'"],
         "img-src": ["'self'", "data:"],
