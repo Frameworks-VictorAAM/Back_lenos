@@ -27,6 +27,11 @@ app.use('/api/products', require('./src/routes/products.js'));
 const rutaComentarios = require('./src/routes/comentarios.js');
 app.use('/api', rutaComentarios);
 
+app.use(cors({
+  origin: 'https://front-lenos.vercel.app', // La URL de tu Vite
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'x-auth-token'] // ¡ESTO ES VITAL!
+}));
 helmet({
     contentSecurityPolicy: {
       directives: {
@@ -39,11 +44,6 @@ helmet({
     },
   })
   
-/*app.use(cors({
-  origin: 'https://front-lenos.vercel.app', // La URL de tu Vite
-  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'x-auth-token'] // ¡ESTO ES VITAL!
-})); */
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGO_URI)
