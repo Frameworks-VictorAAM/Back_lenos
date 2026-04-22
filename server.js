@@ -6,18 +6,31 @@ const helmet = require('helmet');
 
 const app = express();
 
-app.use(cors());
-app.use(helmet()); // uso de helmet
+const corsOptions = {
+  origin: 'https://front-lenos.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+  credentials: true,
+  optionsSuccessStatus: 200 // Responde 200 a la petición OPTIONS
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 // Middlewares
 
 app.use(express.json()); // Permite recibir datos JSON en el cuerpo de las peticiones
 
-app.use((req, res, next) => {
-  res.removeHeader('Access-Control-Allow-Origin');
-  res.removeHeader('Access-Control-Allow-Methods');
-  res.removeHeader('Access-Control-Allow-Headers');
-  next();
-});
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      "default-src": ["'self'"],
+      "connect-src": ["'self'", "https://back-lenos.onrender.com", "https://front-lenos.vercel.app"],
+      "script-src": ["'self'", "'unsafe-inline'"],
+      "style-src": ["'self'", "'unsafe-inline'"],
+    },
+  },
+}));
+
 //Importar Rutas
 app.use('/api/auth', require('./src/routes/auth.js'));
 app.use('/api/orders', require('./src/routes/orders.js'));
@@ -26,19 +39,6 @@ app.use('/api/routes/mispedidos', require('./src/routes/orders.js'));
 app.use('/api/products', require('./src/routes/products.js'));
 const rutaComentarios = require('./src/routes/comentarios.js');
 app.use('/api', rutaComentarios);
-
-app.use(cors({
-  origin: 'https://front-lenos.vercel.app', // La URL de tu Vite
-  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'x-auth-token'] // ¡ESTO ES VITAL!
-}));
-const corsOptions = {
-  origin: 'https://front-lenos.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
-  credentials: true,
-  optionsSuccessStatus: 200 // Responde 200 a la petición OPTIONS
-};
 
 
 // Conexión a MongoDB
